@@ -8,10 +8,12 @@
                 <p class="mb-0">Tienda web de celulares con productos modernos, favoritos, carrito y compras seguras.</p>
             </div>
             <div class="col-md-3">
-                <h6 class="fw-bold">Atención</h6>
-                <p class="mb-1">Lunes a viernes</p>
-                <p class="mb-0">08:00 a 18:00</p>
-                 <p class="mb-0">Correo: <a href="mailto:mapache@gmail.com">mapache@gmail.com</a> | <a href="https://api.whatsapp.com/send?phone=59164922968&text=Hola,%20tengo%20una%20consulta" target="_blank">WhatsApp</a></p>
+                <h6 class="fw-bold">Correo de emergencia</h6>
+                <p class="mb-0">
+                    <a href="mailto:mapache@gmail.com">mapache@gmail.com</a> | 
+                    <a href="https://api.whatsapp.com/send?phone=59164922968&text=Hola,%20tengo%20una%20consulta" target="_blank">WhatsApp</a>
+                </p>
+                <p class="mb-1">Lunes a viernes: 08:00 a 18:00</p>
             </div>
             <div class="col-md-3">
                 <h6 class="fw-bold">Beneficios</h6>
