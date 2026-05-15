@@ -68,15 +68,23 @@ class CarritoController extends Controller
     }
 
     public function comprar(): void
-    {
-        Auth::requireLogin();
-        try {
-            $idVenta = (new Venta())->crearDesdeCarrito(Auth::id());
-            flash('success', 'Compra realizada correctamente. Código de venta: #' . $idVenta);
-            $this->redirect('ventas/historial');
-        } catch (Exception $e) {
-            flash('danger', $e->getMessage());
-            $this->redirect('carrito/index');
-        }
+{
+    Auth::requireLogin();
+    try {
+        $idVenta = (new Venta())->crearDesdeCarrito(Auth::id());
+
+        $usuario = (new Usuario())->buscarPorId(Auth::id());
+        $asunto = "Confirmación de compra #$idVenta";
+        $mensaje = "Hola " . $usuario['nombre'] . ",\n\nTu compra ha sido realizada correctamente. Código de venta: #$idVenta\n\nGracias por comprar en Mapache Store.";
+        mail($usuario['correo'], $asunto, $mensaje);
+
+        $whatsapp = "https://api.whatsapp.com/send?phone=59164922968&text=" . urlencode("Hola, mi compra #$idVenta ya fue realizada, necesito información.");
+
+        flash('success', "Compra realizada correctamente. Código de venta: #$idVenta. <a href='$whatsapp' target='_blank'>Consultar por WhatsApp</a>");
+        $this->redirect('ventas/historial');
+    } catch (Exception $e) {
+        flash('danger', $e->getMessage());
+        $this->redirect('carrito/index');
     }
+}
 }

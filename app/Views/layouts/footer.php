@@ -1,6 +1,6 @@
 </main>
 
-<footer class="footer-mapache mt-5">
+<footer class="footer-mapache mt-auto">
     <div class="container py-5">
         <div class="row g-4">
             <div class="col-md-4">
@@ -11,6 +11,7 @@
                 <h6 class="fw-bold">Atención</h6>
                 <p class="mb-1">Lunes a viernes</p>
                 <p class="mb-0">08:00 a 18:00</p>
+                 <p class="mb-0">Correo: <a href="mailto:mapache@gmail.com">mapache@gmail.com</a> | <a href="https://api.whatsapp.com/send?phone=59164922968&text=Hola,%20tengo%20una%20consulta" target="_blank">WhatsApp</a></p>
             </div>
             <div class="col-md-3">
                 <h6 class="fw-bold">Beneficios</h6>

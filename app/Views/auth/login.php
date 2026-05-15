@@ -21,9 +21,11 @@
                         </form>
                         <hr>
                         <p class="text-center mb-0">¿No tienes cuenta? <a href="<?= url('auth/register') ?>">Regístrate</a></p>
-                        <div class="alert alert-info mt-4 small mb-0">
-                            Admin: <strong>mapache@gmail.com</strong><br>
-                            Contraseña: <strong>mapache3000</strong>
+
+                        <!-- Correo de emergencia -->
+                        <div class="alert alert-info mt-4 small mb-0 text-center">
+                            <strong>Correo de emergencia:</strong><br>
+                            mapache@gmail.com
                         </div>
                     </div>
                 </div>

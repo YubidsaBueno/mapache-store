@@ -56,12 +56,93 @@
                     </tbody>
                 </table>
             </div>
-            <div class="card-footer bg-white p-4">
-                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
-                    <h3 class="mb-0">Total: <span class="price"><?= money($total) ?></span></h3>
-                    <a href="<?= url('carrito/comprar') ?>" class="btn btn-success btn-lg" onclick="return confirm('¿Confirmar compra?')"><i class="bi bi-check-circle"></i> Confirmar compra</a>
-                </div>
+            <div class="card-footer bg-white p-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <h3 class="mb-0">Total: <span class="price"><?= money($total) ?></span></h3>
+                <!-- Botón que abre modal -->
+                <button class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#confirmModal">
+                    <i class="bi bi-check-circle"></i> Confirmar compra
+                </button>
             </div>
         </div>
+
+        <!-- Modal de confirmación -->
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <form id="whatsappForm" class="modal-content" onsubmit="return confirmarCompra()">
+      <div class="modal-header" style="background-color:#0d2b5c; color:white;">
+        <h5 class="modal-title" id="confirmModalLabel">Confirmar compra</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <h6>Productos:</h6>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Nombre del producto</th>
+                    <th>Cantidad</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($items as $item): ?>
+                    <tr>
+                        <td><?= e($item['nombre']) ?></td>
+                        <td><?= (int)$item['cantidad'] ?></td>
+                        <td><?= money($item['precio'] * $item['cantidad']) ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        <p><strong>Total a pagar: <?= money($total) ?></strong></p>
+        <div class="mb-3">
+          <label for="direccion" class="form-label">Dirección de envío:</label>
+          <input type="text" class="form-control" id="direccion" required placeholder="Escribe tu dirección completa">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-success">Confirmar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+function confirmarCompra() {
+    const direccion = document.getElementById('direccion').value.trim();
+    if (!direccion) {
+        alert("Por favor, ingresa tu dirección de envío");
+        return false;
+    }
+
+    // Construir mensaje para WhatsApp
+    let mensaje = "Hola, mi compra:\n";
+    <?php foreach ($items as $item): ?>
+    mensaje += "<?= e($item['nombre']) ?> | Cantidad: <?= (int)$item['cantidad'] ?> | Total: <?= money($item['precio'] * $item['cantidad']) ?>\n";
+    <?php endforeach; ?>
+    mensaje += "Total a pagar: <?= money($total) ?>\n";
+    mensaje += "Dirección: " + direccion;
+
+    // Abrir WhatsApp
+    const numero = "59164922968";
+    const url = "https://api.whatsapp.com/send?phone=" + numero + "&text=" + encodeURIComponent(mensaje);
+    window.open(url, "_blank");
+
+    // Mostrar alert central
+    alert("Gracias por su compra");
+
+    // Enviar POST al backend para vaciar carrito y descontar stock
+    fetch("<?= url('carrito/comprar') ?>", {
+        method: "POST"
+    }).then(response => {
+        // Recargar la página para actualizar carrito y mostrar historial
+        window.location.href = "<?= url('ventas/historial') ?>";
+    }).catch(error => {
+        alert("Ocurrió un error al procesar la compra.");
+    });
+
+    return false; // Evita envío normal del formulario
+}
+</script>
     <?php endif; ?>
 </section>

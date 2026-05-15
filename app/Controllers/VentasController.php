@@ -4,7 +4,16 @@ class VentasController extends Controller
     public function historial(): void
     {
         Auth::requireLogin();
-        $ventas = (new Venta())->porUsuario(Auth::id());
+
+        // Capturamos los filtros enviados por GET
+        $filtro = [
+            'q' => $_GET['q'] ?? null,          // modelo o marca
+            'fecha' => $_GET['fecha'] ?? null,  // fecha de compra
+        ];
+
+        // Se pasa al modelo para filtrar compras del usuario
+        $ventas = (new Venta())->porUsuarioFiltrado(Auth::id(), $filtro);
+
         $this->view('compras/historial', compact('ventas'));
     }
 
@@ -32,7 +41,15 @@ class VentasController extends Controller
     public function admin(): void
     {
         Auth::requireAdmin();
-        $ventas = (new Venta())->todas();
+
+        // Filtros opcionales por GET
+        $filtro = [
+            'q' => $_GET['q'] ?? null,
+            'fecha' => $_GET['fecha'] ?? null,
+        ];
+
+        $ventas = (new Venta())->todasFiltrado($filtro);
+
         $this->view('admin/ventas', compact('ventas'));
     }
 

@@ -25,18 +25,6 @@
                     <li class="nav-item"><a class="nav-link" href="<?= url('favoritos/index') ?>"><i class="bi bi-heart"></i> Favoritos</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= url('carrito/index') ?>"><i class="bi bi-cart3"></i> Carrito</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= url('ventas/historial') ?>">Mis compras</a></li>
-                    <?php if (Auth::isAdmin()): ?>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Admin</a>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="<?= url('admin/dashboard') ?>">Dashboard</a></li>
-                                <li><a class="dropdown-item" href="<?= url('adminProducto/index') ?>">Productos</a></li>
-                                <li><a class="dropdown-item" href="<?= url('categorias/index') ?>">Categorías</a></li>
-                                <li><a class="dropdown-item" href="<?= url('ventas/admin') ?>">Ventas</a></li>
-                                <li><a class="dropdown-item" href="<?= url('admin/usuarios') ?>">Usuarios</a></li>
-                            </ul>
-                        </li>
-                    <?php endif; ?>
                     <li class="nav-item"><a class="btn btn-light btn-sm ms-lg-2" href="<?= url('auth/logout') ?>">Salir</a></li>
                 <?php else: ?>
                     <li class="nav-item"><a class="nav-link" href="<?= url('auth/login') ?>">Login</a></li>

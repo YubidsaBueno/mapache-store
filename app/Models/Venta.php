@@ -97,4 +97,72 @@ class Venta extends Model
     {
         return (float)$this->db->query("SELECT COALESCE(SUM(total), 0) FROM ventas WHERE estado_venta <> 'cancelado'")->fetchColumn();
     }
+
+    /*** NUEVOS MÉTODOS PARA FILTRAR ***/
+
+    // Filtrar compras de un usuario por modelo/marca y fecha
+    public function porUsuarioFiltrado(int $idUsuario, array $filtro = []): array
+    {
+        $where = ["v.id_usuario = ?"];
+        $params = [$idUsuario];
+
+        if (!empty($filtro['q'])) {
+            $where[] = "(LOWER(p.nombre) LIKE ? OR LOWER(p.marca) LIKE ?)";
+            $q = '%' . strtolower($filtro['q']) . '%';
+            $params[] = $q;
+            $params[] = $q;
+        }
+
+        if (!empty($filtro['fecha'])) {
+            $where[] = "DATE(v.fecha) = ?";
+            $params[] = $filtro['fecha'];
+        }
+
+        $sql = "SELECT DISTINCT v.*, u.nombre, u.correo
+                FROM ventas v
+                INNER JOIN usuarios u ON u.id_usuario = v.id_usuario
+                INNER JOIN detalle_ventas d ON d.id_venta = v.id_venta
+                INNER JOIN productos p ON p.id_producto = d.id_producto
+                WHERE " . implode(' AND ', $where) . "
+                ORDER BY v.fecha DESC";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll();
+    }
+
+    // Filtrar todas las ventas para admin
+    public function todasFiltrado(array $filtro = []): array
+    {
+        $where = [];
+        $params = [];
+
+        if (!empty($filtro['q'])) {
+            $where[] = "(LOWER(p.nombre) LIKE ? OR LOWER(p.marca) LIKE ?)";
+            $q = '%' . strtolower($filtro['q']) . '%';
+            $params[] = $q;
+            $params[] = $q;
+        }
+
+        if (!empty($filtro['fecha'])) {
+            $where[] = "DATE(v.fecha) = ?";
+            $params[] = $filtro['fecha'];
+        }
+
+        $sql = "SELECT DISTINCT v.*, u.nombre, u.correo
+                FROM ventas v
+                INNER JOIN usuarios u ON u.id_usuario = v.id_usuario
+                INNER JOIN detalle_ventas d ON d.id_venta = v.id_venta
+                INNER JOIN productos p ON p.id_producto = d.id_producto";
+
+        if ($where) {
+            $sql .= " WHERE " . implode(' AND ', $where);
+        }
+
+        $sql .= " ORDER BY v.fecha DESC";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll();
+    }
 }

@@ -49,11 +49,28 @@ function show_flash(): void
     unset($_SESSION['flash']);
 }
 
+/**
+ * Devuelve la URL correcta de la imagen de un producto.
+ * Primero busca en uploads/productos/, si no existe busca en assets/img/
+ * Si no existe ninguna, devuelve producto por defecto.
+ */
 function productoImagen(?string $archivo): string
 {
     if ($archivo) {
-        return asset(UPLOAD_PRODUCTOS_URL . $archivo);
+        // Primero busca en uploads/productos
+        $pathUploads = UPLOAD_PRODUCTOS_URL . $archivo;
+        if (file_exists(PUBLIC_PATH . '/' . $pathUploads)) {
+            return asset($pathUploads);
+        }
+
+        // Si no está, busca en assets/img
+        $pathImg = 'assets/img/' . $archivo;
+        if (file_exists(PUBLIC_PATH . '/' . $pathImg)) {
+            return asset($pathImg);
+        }
     }
+
+    // Si no encuentra nada, devuelve imagen por defecto
     return asset('assets/img/producto-default.svg');
 }
 
