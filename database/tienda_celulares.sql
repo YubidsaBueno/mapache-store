@@ -1,0 +1,2 @@
+-- La base de datos se crea ejecutando instalar.php
+-- Tablas: usuarios, categorias, productos, producto_media, ventas, detalle_ventas, favoritos, carrito.

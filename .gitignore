@@ -1,0 +1,6 @@
+public/assets/uploads/productos/*
+public/assets/uploads/videos/*
+!public/assets/uploads/productos/.gitkeep
+!public/assets/uploads/videos/.gitkeep
+.DS_Store
+Thumbs.db
