@@ -2,23 +2,23 @@
 
 
 
-\## Estudiante 1
+\## Mi aporte
 
-\- Creación de estructura inicial del proyecto.
+\- Desarrollo de la página principal.
 
-\- Desarrollo de la landing page.
+\- Organización de archivos del proyecto.
 
-\- Configuración inicial de base de datos.
+\- Implementación de funcionalidades previas del sistema.
 
-\- Gestión de productos.
+\- Apoyo en estructura HTML, CSS, PHP y MySQL.
 
 
 
-\## Estudiante 2
+\## Aporte del compañero
 
-\- Mejoras en el carrito de compras.
-
-\- Modificación de estilos.
+\- Modificación y mejora de archivos existentes.
 
 \- Ajustes en funcionalidades del sistema.
+
+\- Actualización de estilos o componentes.
 
